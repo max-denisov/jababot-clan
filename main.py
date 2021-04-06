@@ -1,17 +1,14 @@
 from vk_api.bot_longpoll import VkBotEventType
 
 from Utils.PeopleQueue import PeopleQueue
-from Utils.VKHelper import longpoll, helper
+from Utils.VKHelper import longpoll, helper, VKHelper
 from config import JABABOT_ID
 from control.Parser import Parser
 from model.Command import command_dict
 
 for event in longpoll.listen():  # Основной цикл
     if event.type == VkBotEventType.MESSAGE_NEW:  # Если пришло новое сообщение
-        helper.set_chat_id(event.chat_id)
-
-        text = str(event.message.text)
-        text = text.removeprefix("[club191097210|@toadbot] ")
+        text = VKHelper.get_message_str(event)
         print(text)  # TODO добавить логгер
 
         # команда пользователя

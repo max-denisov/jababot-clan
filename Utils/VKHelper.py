@@ -22,5 +22,13 @@ class VKHelper:
     def set_chat_id(self, id):
         self.chat_id = id
 
+    @staticmethod
+    def get_message_str(event):
+        helper.set_chat_id(event.chat_id)  # TODO переписать
+
+        text = str(event.message.text)
+        text = text.removeprefix("[club191097210|@toadbot] ")  # убирает вызов бота
+        return text
+
 
 helper = VKHelper()

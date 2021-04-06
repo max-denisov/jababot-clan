@@ -47,6 +47,7 @@ class Parser:
 
     @staticmethod
     def parse_bot_command(command_type, command_str):
+        command_str += '\n'  # перенос строки в конце для парсинга
         if command_type == Command.JABA:
             Parser.handle_jaba(command_str)
         elif command_type == Command.INVENTORY:
