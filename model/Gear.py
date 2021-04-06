@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Inventory(Enum):
+class Gear(Enum):
     MELEE = "Ближний бой: "
     RANGED = "Дальний бой: "
     HEAD = "Наголовник: "

@@ -1,7 +1,7 @@
 from Utils.PeopleQueue import PeopleQueue
 from Utils.VKHelper import helper
 from model.Command import Command
-from model.Inventory import Inventory
+from model.Gear import Gear
 
 
 class Parser:
@@ -20,10 +20,10 @@ class Parser:
         helper.write_msg("Это жаба " + str(PeopleQueue.pull()) + ", " + name + " " + level + "уровня")
 
     @staticmethod
-    def handle_inventory(inventory_str):
+    def handle_gear(gear_str):
         info_str = ''
-        for stat in Inventory:
-            parsed_stat = Parser.parse_value(inventory_str, stat.value)
+        for stat in Gear:
+            parsed_stat = Parser.parse_value(gear_str, stat.value)
             info_str += stat.value + ' ' + parsed_stat + '\n'
         helper.write_msg(info_str)
 
@@ -32,7 +32,7 @@ class Parser:
         command_str += '\n'  # перенос строки в конце для парсинга
         if command_type == Command.JABA:
             Parser.handle_jaba(command_str)
-        elif command_type == Command.INVENTORY:
-            Parser.handle_inventory(command_str)
+        elif command_type == Command.GEAR:
+            Parser.handle_gear(command_str)
         else:
             helper.write_msg("Неизвестная команда жабабота")
