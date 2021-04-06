@@ -6,20 +6,44 @@ from model.Command import Command
 class Parser:
     @staticmethod
     def parse_value(text, parameter_str):
-        start_index = text.find(parameter_str) + len(parameter_str)
-        return text[start_index:text.find('\n', start_index)]
+        parameter_start = text.find(parameter_str)
+        if parameter_start == -1:
+            return "Ошибка парсинга"  # TODO в логгер
+        parameter_end = parameter_start + len(parameter_str)
+        return text[parameter_end:text.find('\n', parameter_end)]
 
     @staticmethod
     def handle_jaba(jaba_str):
-        name = Parser.parse_value(jaba_str, "🐸Имя вашей жабы: ")
-        level = Parser.parse_value(jaba_str, "⭐Уровень вашей жабы: ")
+        name = Parser.parse_value(jaba_str, "Имя вашей жабы: ")
+        level = Parser.parse_value(jaba_str, "Уровень вашей жабы: ")
         helper.write_msg("Это жаба " + str(PeopleQueue.pull()) + ", " + name + " " + level + "уровня")
 
     @staticmethod
     def handle_inventory(inventory_str):
-        melee = Parser.parse_value(inventory_str, "🗡Ближний бой: ")
-        ranged = Parser.parse_value(inventory_str, "🏹Дальний бой: ")
-        helper.write_msg("Оружие " + str(PeopleQueue.pull()) + ", " + melee + " и " + ranged)
+        inventory = {  # TODO в Enum
+            "melee": "Ближний бой: ",
+            "ranged": "Дальний бой: ",
+            "head": "Наголовник: ",
+            "chest": "Нагрудник: ",
+            "legs": "Налапники: ",
+            "team": "Банда: ",
+            "weapon_pieces": "Оружейных кусочков: ",
+            "t1_pieces": "Кусочков водорослей: ",
+            "t2_pieces": "Кусочков кувшинки: ",
+            "t3_pieces": "Кусочков клюва цапли: ",
+            "hp": "Здоровье:",
+            "attack": "Атака:",
+            "defence": "Защита:"
+        }
+        stats = []
+        for stat_name in inventory.keys():
+            stats.append((inventory.get(stat_name), Parser.parse_value(inventory_str, inventory.get(stat_name))))
+            print(stats[-1])
+
+        info_str = ''
+        for stat in stats:
+            info_str += stat[0] + stat[1] + '\n'
+        helper.write_msg(info_str)
 
     @staticmethod
     def parse_bot_command(command_type, command_str):
