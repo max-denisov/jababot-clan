@@ -3,8 +3,8 @@ from vk_api.bot_longpoll import VkBotLongPoll
 from vk_api.utils import get_random_id
 
 from Utils.PeopleQueue import PeopleQueue
-from config import VK_GROUP_ID, JABABOT_ID
 from api_token import TOKEN
+from config import VK_GROUP_ID
 
 
 class VKHelper:

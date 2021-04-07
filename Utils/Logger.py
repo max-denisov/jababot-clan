@@ -1,6 +1,6 @@
 import logging
 
-from Utils.VKHelper import helperInstance
+from control.VKHelper import helperInstance
 
 logging.basicConfig(filemode="w", filename="jaba.log", level=logging.INFO)
 

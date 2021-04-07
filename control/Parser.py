@@ -1,5 +1,5 @@
 from Utils.Logger import error
-from Utils.VKHelper import helperInstance
+from control.VKHelper import helperInstance
 from model.Command import Command
 from model.Gear import Gear
 from model.Jaba import Jaba

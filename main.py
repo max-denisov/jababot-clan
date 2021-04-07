@@ -1,7 +1,7 @@
 from vk_api.bot_longpoll import VkBotEventType
 
 from Utils.Logger import log, error
-from Utils.VKHelper import helperInstance, VKHelper
+from control.VKHelper import helperInstance, VKHelper
 from config import JABABOT_ID
 from control.Parser import Parser
 from model.Command import command_dict
