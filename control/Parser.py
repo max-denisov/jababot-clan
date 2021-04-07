@@ -2,9 +2,39 @@ from Utils.PeopleQueue import PeopleQueue
 from Utils.VKHelper import helper
 from model.Command import Command
 from model.Gear import Gear
+from model.MyJaba import MyJaba
 
 
 class Parser:
+    @staticmethod
+    def parse_bot_command(command_type, command_str):
+        command_str += '\n'  # перенос строки в конце для парсинга
+        if command_type == Command.JABA:
+            Parser.handle_jaba(command_str)  # TODO создать общий метод обработки
+        elif command_type == Command.GEAR:
+            Parser.handle_gear(command_str)
+        else:
+            helper.write_msg("Неизвестная команда жабабота")
+            return
+
+    @staticmethod
+    def handle_jaba(jaba_str):
+        jaba_list = Parser.parse_all_stats(MyJaba, jaba_str)
+        Parser.message_stat(jaba_list)
+
+    @staticmethod
+    def handle_gear(gear_str):
+        gear_list = Parser.parse_all_stats(Gear, gear_str)
+        Parser.message_stat(gear_list)
+
+    @staticmethod
+    def parse_all_stats(stat_list, command_str):
+        parsed_list = []
+        for stat in stat_list:
+            parsed_stat = Parser.parse_value(command_str, stat.value)
+            parsed_list.append((stat, parsed_stat))
+        return parsed_list
+
     @staticmethod
     def parse_value(text, parameter_str):
         parameter_start = text.find(parameter_str)
@@ -14,25 +44,8 @@ class Parser:
         return text[parameter_end:text.find('\n', parameter_end)]
 
     @staticmethod
-    def handle_jaba(jaba_str):
-        name = Parser.parse_value(jaba_str, "Имя вашей жабы: ")
-        level = Parser.parse_value(jaba_str, "Уровень вашей жабы: ")
-        helper.write_msg("Это жаба " + str(PeopleQueue.pull()) + ", " + name + " " + level + "уровня")
-
-    @staticmethod
-    def handle_gear(gear_str):
+    def message_stat(stat_list):
         info_str = ''
-        for stat in Gear:
-            parsed_stat = Parser.parse_value(gear_str, stat.value)
-            info_str += stat.value + ' ' + parsed_stat + '\n'
+        for stat in stat_list:
+            info_str += stat[0].value + ' ' + stat[1] + '\n'
         helper.write_msg(info_str)
-
-    @staticmethod
-    def parse_bot_command(command_type, command_str):
-        command_str += '\n'  # перенос строки в конце для парсинга
-        if command_type == Command.JABA:
-            Parser.handle_jaba(command_str)
-        elif command_type == Command.GEAR:
-            Parser.handle_gear(command_str)
-        else:
-            helper.write_msg("Неизвестная команда жабабота")
