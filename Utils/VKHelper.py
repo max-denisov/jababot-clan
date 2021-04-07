@@ -24,7 +24,7 @@ class VKHelper:
 
     @staticmethod
     def get_message_str(message):
-        text = str(message.message_str)
+        text = str(message.text)
         text = text.removeprefix("[club191097210|@toadbot] ")  # убирает упоминание бота при вызове кнопкой
         return text
 

@@ -2,7 +2,7 @@ import logging
 
 from Utils.VKHelper import helperInstance
 
-logging.basicConfig(filename="jaba.log", level=logging.INFO)
+logging.basicConfig(filemode="w", filename="jaba.log", level=logging.INFO)
 
 log = logging.getLogger()
 

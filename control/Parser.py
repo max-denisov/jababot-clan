@@ -15,11 +15,10 @@ class Parser:
             Parser._handle_gear(command_str)
         else:
             error("Неизвестная команда жабабота")
-            return
 
     @staticmethod
     def _handle_jaba(jaba_str):
-        jaba_list = Parser._parse_all_stats(MyJaba, jaba_str)
+        jaba_list = Parser._parse_all_stats(MyJaba, jaba_str)  # TODO переименовать
         Parser._message_stat(jaba_list)
 
     @staticmethod

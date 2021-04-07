@@ -12,7 +12,7 @@ for event in helperInstance.get_event_stream():  # Основной цикл
         helperInstance.set_chat_id(event.chat_id)
         message = event.message
         message_str = helperInstance.get_message_str(message)
-        log.debug(message_str)
+        log.info(message_str)
 
         # команда пользователя
         if message_str.lower() in command_dict.values():  # если найдена валидная команда
