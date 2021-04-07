@@ -5,7 +5,7 @@ from Utils.VKHelper import helperInstance, VKHelper
 from config import JABABOT_ID
 from control.Parser import Parser
 from model.Command import command_dict
-
+from model.Jaba import Jaba
 
 for event in helperInstance.get_event_stream():  # Основной цикл
     if event.type == VkBotEventType.MESSAGE_NEW:
@@ -13,6 +13,10 @@ for event in helperInstance.get_event_stream():  # Основной цикл
         message = event.message
         message_str = helperInstance.get_message_str(message)
         log.info(message_str)
+
+        # кастомные команды
+        if message_str.lower() == 'дай инфо':
+            helperInstance.write_msg(Jaba.get_full_info(message.from_id))
 
         # команда пользователя
         if message_str.lower() in command_dict.values():  # если найдена валидная команда

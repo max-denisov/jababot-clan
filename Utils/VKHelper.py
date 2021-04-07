@@ -31,6 +31,9 @@ class VKHelper:
     def add_person(self, person_id):
         self._people_queue.push(person_id)
 
+    def get_person(self):
+        return self._people_queue.pull()
+
     def get_queue_size(self):
         return self._people_queue.size()
 
