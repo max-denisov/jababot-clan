@@ -11,13 +11,13 @@ class VKHelper:
     def __init__(self, token=TOKEN, group_id=VK_GROUP_ID):
         self._chat_id = 0
         # Авторизация
-        self.api = vk_api.VkApi(token=token)
+        self._api = vk_api.VkApi(token=token)
         # Работа с сообщениями
-        self.longpoll = VkBotLongPoll(self.api, group_id)
+        self._longpoll = VkBotLongPoll(self._api, group_id)
         self._people_queue = PeopleQueue()
 
     def write_msg(self, message):
-        self.api.method('messages.send', {'chat_id': self._chat_id, 'message': message, 'random_id': get_random_id()})
+        self._api.method('messages.send', {'chat_id': self._chat_id, 'message': message, 'random_id': get_random_id()})
 
     def set_chat_id(self, chat_id):
         self._chat_id = chat_id
@@ -37,6 +37,9 @@ class VKHelper:
     @staticmethod
     def is_message_from(message, person_id):
         return message.from_id == person_id
+
+    def get_event_stream(self):
+        return self._longpoll.listen()
 
 
 helperInstance = VKHelper()

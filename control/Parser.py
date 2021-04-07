@@ -1,3 +1,4 @@
+from Utils.Logger import error
 from Utils.VKHelper import helperInstance
 from model.Command import Command
 from model.Gear import Gear
@@ -13,7 +14,7 @@ class Parser:
         elif command_type == Command.GEAR:
             Parser._handle_gear(command_str)
         else:
-            helperInstance.write_msg("Неизвестная команда жабабота")
+            error("Неизвестная команда жабабота")
             return
 
     @staticmethod
@@ -38,7 +39,8 @@ class Parser:
     def _parse_value(text, parameter_str):
         parameter_start = text.find(parameter_str)
         if parameter_start == -1:
-            return "Ошибка парсинга"  # TODO в логгер
+            error("Ошибка парсинга")
+            return "Не распознано"
         parameter_end = parameter_start + len(parameter_str)
         return text[parameter_end:text.find('\n', parameter_end)]
 
@@ -46,5 +48,5 @@ class Parser:
     def _message_stat(stat_list):
         info_str = ''
         for stat in stat_list:
-            info_str += stat[0].value + ' ' + stat[1] + '\n'
+            info_str += f'{stat[0].value} {stat[1]}\n'
         helperInstance.write_msg(info_str)
