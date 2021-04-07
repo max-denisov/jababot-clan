@@ -41,6 +41,14 @@ class VKHelper:
     def is_message_from(message, person_id):
         return message.from_id == person_id
 
+    @staticmethod
+    def get_id_from_tag(tag_text):
+        start = tag_text.find('id') + len('id')
+        end = tag_text.find('|')
+        if end == -1:
+            end = len(tag_text)
+        return int(tag_text[start: end])
+
     def get_event_stream(self):
         return self._longpoll.listen()
 

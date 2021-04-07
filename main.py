@@ -11,12 +11,17 @@ for event in helperInstance.get_event_stream():  # Основной цикл
     if event.type == VkBotEventType.MESSAGE_NEW:
         helperInstance.set_chat_id(event.chat_id)
         message = event.message
-        message_str = helperInstance.get_message_str(message)
+        message_str = VKHelper.get_message_str(message)
         log.info(message_str)
 
         # кастомные команды
-        if message_str.lower() == 'дай инфо':
-            helperInstance.write_msg(Jaba.get_full_info(message.from_id))
+        if message_str.lower().startswith("дай инфо"):
+            person_tag = message_str.lower().removeprefix("дай инфо")
+            if person_tag:
+                person_id = VKHelper.get_id_from_tag(person_tag)
+            else:
+                person_id = message.from_id
+            VKHelper.write_msg(Jaba.get_full_info(person_id))
 
         # команда пользователя
         if message_str.lower() in command_dict.values():  # если найдена валидная команда
