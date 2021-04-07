@@ -2,33 +2,35 @@ from vk_api import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll
 from vk_api.utils import get_random_id
 
+from Utils.PeopleQueue import PeopleQueue
 from config import VK_GROUP_ID
-from api_token import _TOKEN
-
-# Авторизация
-_vk = vk_api.VkApi(token=_TOKEN)
-
-# Работа с сообщениями
-longpoll = VkBotLongPoll(_vk, VK_GROUP_ID)
+from api_token import TOKEN
 
 
 class VKHelper:
-    def __init__(self, chat_id=0):
-        self.chat_id = chat_id
+    def __init__(self, token=TOKEN, group_id=VK_GROUP_ID):
+        self.chat_id = 0
+        # Авторизация
+        self.api = vk_api.VkApi(token=token)
+        # Работа с сообщениями
+        self.longpoll = VkBotLongPoll(self.api, group_id)
+        self._people_queue = PeopleQueue()
 
     def write_msg(self, message):
-        _vk.method('messages.send', {'chat_id': self.chat_id, 'message': message, 'random_id': get_random_id()})
+        self.api.method('messages.send', {'chat_id': self.chat_id, 'message': message, 'random_id': get_random_id()})
 
-    def set_chat_id(self, id):
-        self.chat_id = id
+    def get_message_str(self, event):
+        self.chat_id = event.chat_id  # TODO выделить в отдельный метод
 
-    @staticmethod
-    def get_message_str(event):
-        helper.set_chat_id(event.chat_id)  # TODO переписать
-
-        text = str(event.message.text)
-        text = text.removeprefix("[club191097210|@toadbot] ")  # убирает вызов бота
+        text = str(event.message.message_str)
+        text = text.removeprefix("[club191097210|@toadbot] ")  # убирает упоминание бота при вызове кнопкой
         return text
 
+    def add_person(self, person_id):
+        self._people_queue.push(person_id)
 
-helper = VKHelper()
+    def get_queue_size(self):
+        return self._people_queue.size()
+
+
+helperInstance = VKHelper()

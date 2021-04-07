@@ -1,15 +1,12 @@
-_people = []
-
-
 class PeopleQueue:
-    @staticmethod
-    def push(person_id):
-        _people.append(person_id)
+    def __init__(self):
+        self._people = []
 
-    @staticmethod
-    def pull():
-        return _people.pop(0)
+    def push(self, person_id):
+        self._people.append(person_id)
 
-    @staticmethod
-    def size():
-        return len(_people)
+    def pull(self):
+        return self._people.pop(0)
+
+    def size(self):
+        return len(self._people)
